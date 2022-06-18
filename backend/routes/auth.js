@@ -5,6 +5,7 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = process.env;
+const fetchUser = require('../middlewares/fetchuser');
 
 const saltRounds = 10;
 
@@ -33,7 +34,7 @@ router.post('/createuser', [
 
         const newUser = await User.create({
             name: req.body.name,
-            email: req.body.email.toLowerCase(),
+            email: req.body.email,
             password: secPass
         })
 
@@ -86,6 +87,31 @@ router.post('/login', [
     }
 })
 
+router.get('/getuser', fetchUser, async (req, res) => {
 
+    console.log("object")
+    try {
+        let userId = req.id;
+        const user = await User.findById(userId).select("-password");
+        res.send({success: true, user});
+    }
+    catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error!");
+    }
+})
+
+
+// router.get('/users/:username', fetchUser, async (req, res) => {
+//     try {
+//         let userId = req.id;
+//         const user = await User.findById(userId).select("-password");
+//         res.status(200).json(user);
+//     }
+//     catch (error) {
+//         console.error(error.message);
+//         res.status(500).send("Internal Server Error!");
+//     }
+// })
 
 module.exports = router;

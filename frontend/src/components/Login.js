@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,10 +17,9 @@ const Login = () => {
     }
 
     const handleSubmit = async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         const { email, password } = credentials;
-        console.log("here");
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        let response = await fetch('http://localhost:5000/api/auth/login', {
             method: 'POST',
 
             headers: {
@@ -31,12 +30,22 @@ const Login = () => {
 
         });
 
-        const json = await response.json();
+        let json = await response.json();
         setCredentials({ email: "", password: "" });
 
         if (json.success) {
             localStorage.setItem('token', json.authToken);
-            navigate('/');
+            response = await fetch('http://localhost:5000/api/auth/getuser', {
+                method: 'GET',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-Token': localStorage.getItem('token')
+                }
+
+            });
+            json = await response.json();
+            navigate(`/${json.user.name}/personal`);
         }
         else {
             alert("Invalid Credentials!");
@@ -66,7 +75,7 @@ const Login = () => {
                         </div>
                         <div className="modal-body">
                             <div className="container my-3">
-                            <form className='my-3' onSubmit={handleSubmit}>
+                                <form className='my-3' onSubmit={handleSubmit}>
                                     <div className="mb-3">
                                         <label htmlFor="email" className="form-label">Email</label>
                                         <input type="text" className="form-control" id="email1" name="email" minLength={8} value={credentials.email} onChange={onChange} required />
@@ -75,7 +84,7 @@ const Login = () => {
                                         <label htmlFor="password" className="form-label">Password</label>
                                         <input type="password" className="form-control" id="password1" minLength={8} name="password" value={credentials.password} onChange={onChange} required />
                                     </div>
-                                    <button type='submit' disabled={ credentials.password.length < 8 || !credentials.email.match(pattern)} className="btn btn-primary">Login</button>                            
+                                    <button type='submit' disabled={credentials.password.length < 8 || !credentials.email.match(pattern)} className="btn btn-primary">Login</button>
                                 </form>
                             </div>
                         </div>

@@ -16,7 +16,8 @@ const Signup = () => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         const { name, email, password } = credentials;
 
         const response = await fetch('http://localhost:5000/api/auth/createuser', {
@@ -35,7 +36,7 @@ const Signup = () => {
 
         if (json.success) {
             localStorage.setItem('token', json.authToken);
-            navigate('/');
+            navigate('/user');
         }
         else {
             alert("Invalid Credentials!");
@@ -80,7 +81,7 @@ const Signup = () => {
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="password" className="form-label">Confirm Password</label>
-                                        <input type="cpassword" className="form-control" id="cpassword" name="cpassword" minLength={8} value={credentials.cpassword} onChange={onChange} required />
+                                        <input type="password" className="form-control" id="cpassword" name="cpassword" minLength={8} value={credentials.cpassword} onChange={onChange} required />
                                     </div>
                                     { credentials.cpassword !== credentials.password ? <div style={{color: 'red'}} >Password should match confirm password</div> : ""}
                                     <button type="submit" disabled={credentials.name.length < 5 || credentials.password.length < 8 || credentials.cpassword !== credentials.password} className="btn btn-secondary" data-bs-dismiss="modal">SignUp</button>

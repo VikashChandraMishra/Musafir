@@ -8,7 +8,7 @@ const Navbar = () => {
     let navigate = useNavigate();
 
     const context = useContext(AuthContext);
-    const { setSign, setLog } = context;
+    const { setSign, setLogin} = context;
 
     const handleSignUp = (e) => {
         e.preventDefault();
@@ -17,7 +17,7 @@ const Navbar = () => {
 
     const handleLogIn = (e) => {
         e.preventDefault();
-        setLog(true);
+        setLogin(true);
     }
 
     const handleLogOut = () => {
@@ -49,11 +49,11 @@ const Navbar = () => {
                                 localStorage.getItem('token') ?
                                     <div className=' d-flex justify-content-around' style={{width: "800px", paddingLeft: "250px", paddingRight: "250px"}}>
                                         <li className="nav-item">
-                                            <Link className={`nav-link ${location.pathname === '/user' ? 'active' : ''}`} to="/user">Personal</Link>
+                                            <Link className={`nav-link ${location.pathname === `/${localStorage.getItem('username')}/personal` ? 'active' : ''}`} to={`/${localStorage.getItem('username')}/personal`}>Personal</Link>
                                         </li><li className="nav-item">
-                                            <Link className={`nav-link ${location.pathname === '/journal' ? 'active' : ''}`} to="/journal">Journal</Link>
+                                            <Link className={`nav-link ${location.pathname === `/${localStorage.getItem('username')}/journal` ? 'active' : ''}`} to={`/${localStorage.getItem('username')}/journal`}>Journal</Link>
                                         </li><li className="nav-item">
-                                            <Link className={`nav-link ${location.pathname === '/images' ? 'active' : ''}`} to="/location">Location</Link>
+                                            <Link className={`nav-link ${location.pathname ===  `/${localStorage.getItem('username')}/images`  ? 'active' : ''}`} to={`/${localStorage.getItem('username')}/images`}>Images</Link>
                                         </li>
                                     </div> : ""
                             }

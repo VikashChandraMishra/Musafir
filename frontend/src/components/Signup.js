@@ -32,11 +32,13 @@ const Signup = () => {
         });
 
         const json = await response.json();
+        const user = name;
         setCredentials({ name: "", email: "", password: "", cpassword: "" });
 
         if (json.success) {
             localStorage.setItem('token', json.authToken);
-            navigate('/user');
+            localStorage.setItem('username', user);
+            navigate(`/${user}/personal`);
         }
         else {
             alert("Invalid Credentials!");

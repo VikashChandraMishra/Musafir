@@ -8,7 +8,7 @@ const Login = () => {
     let navigate = useNavigate();
     // eslint-disable-next-line
     const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const { log, setLog } = context;
+    const { login, setLogin } = context;
 
     const [credentials, setCredentials] = useState({ email: "", password: "" });
 
@@ -40,11 +40,12 @@ const Login = () => {
 
                 headers: {
                     'Content-Type': 'application/json',
-                    'auth-Token': localStorage.getItem('token')
+                    'auth-token': localStorage.getItem('token')
                 }
 
             });
             json = await response.json();
+            localStorage.setItem('username', json.user.name);
             navigate(`/${json.user.name}/personal`);
         }
         else {
@@ -54,10 +55,10 @@ const Login = () => {
 
     useEffect(() => {
         setCredentials({ email: "", password: "" });
-        if (log) ref.current.click();
-        setLog(false);
-        console.log("Login form!", log);
-    }, [log, setLog])
+        if (login) ref.current.click();
+        setLogin(false);
+        console.log("Login form!", login);
+    }, [login, setLogin])
 
     return (
         <div className='container mt-4' style={{ paddingTop: "70px" }}>

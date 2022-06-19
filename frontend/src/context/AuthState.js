@@ -5,11 +5,11 @@ import { useState } from 'react';
 const AuthState = (props) => {
 
     const [sign, setSign] = useState(false);
-    const [log, setLog] = useState(false);
+    const [login, setLogin] = useState(false);
 
     return (
         <div>
-            <AuthContext.Provider value={{ sign, setSign, log, setLog }}>
+            <AuthContext.Provider value={{ sign, setSign, login, setLogin }}>
                 {props.children}
             </AuthContext.Provider>
         </div>

@@ -47,7 +47,7 @@ const Navbar = () => {
                             </li>
                             {
                                 localStorage.getItem('token') ?
-                                    <div className=' d-flex justify-content-around' style={{width: "800px", paddingLeft: "250px", paddingRight: "250px"}}>
+                                    <div className='  d-flex justify-content-around' style={{width: "800px", paddingLeft: "250px", paddingRight: "250px"}}>
                                         <li className="nav-item">
                                             <Link className={`nav-link ${location.pathname === `/${localStorage.getItem('username')}/personal` ? 'active' : ''}`} to={`/${localStorage.getItem('username')}/personal`}>Personal</Link>
                                         </li><li className="nav-item">

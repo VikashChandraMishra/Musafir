@@ -7,6 +7,9 @@ const LogState = (props) => {
     const logsInitial = [];
     const host = "http://localhost:5000";
 
+
+    const [ add , setAdd ] = useState(true);
+
     const [logs, setLogs] = useState(logsInitial);
 
     const getLogs = async () => {
@@ -112,7 +115,7 @@ const LogState = (props) => {
 
     return (
         <div>
-            <LogContext.Provider value={{ logs, addLog, getLogs, updateLog, deleteLog }}>
+            <LogContext.Provider value={{ logs, addLog, getLogs, updateLog, deleteLog, add, setAdd }}>
                 {props.children}
             </LogContext.Provider>
         </div>
